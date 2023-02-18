@@ -1,7 +1,4 @@
-import Head from 'next/head'
-import "primereact/resources/themes/lara-light-indigo/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";                                         
+import Head from 'next/head'                                    
 import { AuthProvider } from '@arcana/auth';
 import { ProvideAuth } from '@arcana/auth-react';
 import Login from '@/components/Login';

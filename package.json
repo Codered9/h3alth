@@ -11,7 +11,9 @@
   "dependencies": {
     "@arcana/auth": "^1.0.1",
     "@arcana/auth-react": "^0.0.3",
+    "@lighthouse-web3/sdk": "^0.1.12",
     "@next/font": "13.1.6",
+    "formidable": "^2.1.1",
     "next": "13.1.6",
     "primeicons": "^6.0.1",
     "primereact": "^9.1.1",
