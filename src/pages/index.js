@@ -1,16 +1,12 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.css'
-//theme
-import "primereact/resources/themes/lara-light-indigo/theme.css";     
-//core
+import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
-//icons
 import "primeicons/primeicons.css";                                         
-        
+import { AuthProvider } from '@arcana/auth';
+import { ProvideAuth } from '@arcana/auth-react';
+import Login from '@/components/Login';
 
-const inter = Inter({ subsets: ['latin'] })
+const provider = new AuthProvider(process.env.NEXT_PUBLIC_ARCANA_APP_ID)
 
 export default function Home() {
   return (
@@ -21,13 +17,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            H3alth
-          </p>
-        </div>
-      </main>
+      <ProvideAuth provider={provider}>
+        <Login />
+      </ProvideAuth>
     </>
   )
 }
