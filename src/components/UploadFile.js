@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FileUpload } from "primereact/fileupload";
 import { DataTable } from "primereact/datatable";
-import { Button } from 'primereact/button';
+import { Button } from "primereact/button";
 const Web3 = require("web3");
 
 export default function UploadFile({ auth }) {
@@ -75,7 +75,38 @@ export default function UploadFile({ auth }) {
   };
 
   return (
-    <div className="card">
+    <div
+      className="card"
+      style={{
+        fontFamily:
+          '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+      }}
+    >
+      <h2 style={{ margin: "2rem", fontSize: "2rem" }}>Uploading Files</h2>
+      <p style={{ margin: "2rem", fontSize: "1.4rem" }}>
+        Before uploading your files kindly do the following steps:
+      </p>
+      <ul
+        style={{
+          marginLeft: "4rem",
+          marginBottom: "2rem",
+          fontSize: "1.2rem",
+          lineHeight: "1.6rem",
+        }}
+      >
+        <li>
+          Sign the transaction to add HyperSpace Testnet to your Arcana Wallet.
+        </li>
+        <li>
+          After approving, you will see Hyperspace Testnet in your list of
+          avaliable networks. Select it.
+        </li>
+        <li>
+          Top up your wallet through Hyperspace Faucets to have some tFil.
+        </li>
+        <li>Now you can upload your files.</li>
+      </ul>
+
       <FileUpload
         name="demo"
         url={"/api/uploadFile"}
@@ -88,16 +119,59 @@ export default function UploadFile({ auth }) {
         }
       />
 
-      <Button label="List Files" onClick={getFiles} style={{margin: "1.25rem", marginBottom: "0rem"}}/>
-      <table style={{margin: "4rem", display: "flex", flexDirection: "column",}}>
-        <tr style={{display: "flex", flexDirection: "row", gap: "4rem",justifyContent: "space-between" }}>
-          <th style={{fontSize: "2rem",fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"' , textAlign: "center"}}>Filename</th>
-          <th style={{fontSize: "2rem",fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"', textAlign: "center" }}>CID</th>
+      {/* List Files */}
+
+      <h2 style={{ margin: "2rem", marginTop: "4rem", fontSize: "2rem" }}>
+        Fetch Files
+      </h2>
+
+      <p
+        style={{
+          margin: "2rem",
+          fontSize: "1.4rem",
+          maxWidth: "52rem",
+          textAlign: "justify",
+        }}
+      >
+        You can view your stored files here by clicking on to the button. This
+        will show your stored files <b>Hashed Names</b> along with their
+        respective <b>CID</b> using which you can fetch your files.
+      </p>
+
+      <Button
+        label="List Files"
+        onClick={getFiles}
+        style={{ marginLeft: "4rem" }}
+      />
+
+      <table
+        style={{ margin: "4rem", display: "flex", flexDirection: "column" }}
+      >
+        <tr
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "4rem",
+            justifyContent: "space-between",
+          }}
+        >
+          <th style={{ fontSize: "2rem", textAlign: "center" }}>Filename</th>
+          <th style={{ fontSize: "2rem", textAlign: "center" }}>CID</th>
         </tr>
+
         {listFiles.map((res) => (
-          <tr style={{display: "flex", flexDirection: "row", gap: "10",justifyContent: "space-between", marginTop: "12px", fontSize: "20px"}}>
-            <td style={{minWidth: "5rem", textAlign: "left"}}>{res[0]}</td>
-            <td style={{minWidth: "5rem", textAlign: "left"}}>{res[1]}</td>
+          <tr
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "10",
+              justifyContent: "space-between",
+              marginTop: "12px",
+              fontSize: "20px",
+            }}
+          >
+            <td style={{ minWidth: "5rem", textAlign: "left" }}>{res[0]}</td>
+            <td style={{ minWidth: "5rem", textAlign: "left" }}>{res[1]}</td>
           </tr>
         ))}
       </table>
