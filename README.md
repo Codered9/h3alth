@@ -55,3 +55,7 @@ The smart contract is deployed on Hyperspace Testnet. And you can view the contr
 ## Things which were the most difficult
 - Connecting smart contract to the web app and signing the transactions with Arcana Wallet.
 - Understanding and implementing the working of Lighthouse storage.
+
+## Tracks that I have applied for
+- Filecoin - Top 3 Hacks and Prize Pool
+- Arcana Network - Arcana Auth Implementation and Prize Pool
