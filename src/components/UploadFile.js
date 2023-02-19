@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { FileUpload } from "primereact/fileupload";
-const Web3 = require('web3');
-// import { useAuth } from "@arcana/auth-react";
-// const { user, connect, isLoggedIn, loading, loginWithSocial, provider } = useAuth();
+import { DataTable } from "primereact/datatable";
+import { Button } from 'primereact/button';
+const Web3 = require("web3");
 
-export default function UploadFile({auth}) {
-  console.log(auth.user.address);
+export default function UploadFile({ auth }) {
+  const [listFiles, setListFiles] = useState([]);
   const contractAbi = [
     {
       inputs: [
@@ -39,22 +39,39 @@ export default function UploadFile({auth}) {
       type: "function",
     },
   ];
-  // const form = formidable({multiples: true})
+
+  const web3 = new Web3(auth.provider);
+  const contract = new web3.eth.Contract(
+    contractAbi,
+    process.env.NEXT_PUBLIC_CONTRACT_ADDRESS
+  );
+
+  console.log(auth.user.address);
+
   const uploadCallback = (event) => {
-    const web3 = new Web3(auth.provider);
-    const contract = new web3.eth.Contract(contractAbi, process.env.NEXT_PUBLIC_CONTRACT_ADDRESS)
-    // web3.eth.getAccounts(console.log)
     const { xhr } = event;
     const { response } = xhr;
     const { data } = JSON.parse(response);
-    console.log(data)
-    contract.methods.getFiles().call({from: `${auth.user.address}`}, function(error, result){
-      console.log(result)  
-    })
+    contract.methods
+      .saveFileCID(data.Name, data.Hash)
+      .send(
+        { from: `${auth.user.address}` },
+        function (error, transactionHash) {
+          console.log(transactionHash);
+        }
+      );
+  };
 
-    contract.methods.saveFileCID(data.Name , data.Hash).send({from: `${auth.user.address}`}, function(error, transactionHash){
-      console.log(transactionHash)
-    } )
+  const getFiles = async () => {
+    await contract.methods
+      .getFiles()
+      .call({ from: `${auth.user.address}` }, function (error, result) {
+        setListFiles(result);
+        listFiles.map((res) => {
+          console.log(res[1]);
+        });
+        console.log(typeof listFiles);
+      });
   };
 
   return (
@@ -70,6 +87,20 @@ export default function UploadFile({auth}) {
           <p className="m-0">Drag and drop files to here to upload.</p>
         }
       />
+
+      <Button label="List Files" onClick={getFiles} style={{margin: "1.25rem", marginBottom: "0rem"}}/>
+      <table style={{margin: "4rem", display: "flex", flexDirection: "column",}}>
+        <tr style={{display: "flex", flexDirection: "row", gap: "4rem",justifyContent: "space-between" }}>
+          <th style={{fontSize: "2rem",fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"' , textAlign: "center"}}>Filename</th>
+          <th style={{fontSize: "2rem",fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"', textAlign: "center" }}>CID</th>
+        </tr>
+        {listFiles.map((res) => (
+          <tr style={{display: "flex", flexDirection: "row", gap: "10",justifyContent: "space-between", marginTop: "12px", fontSize: "20px"}}>
+            <td style={{minWidth: "5rem", textAlign: "left"}}>{res[0]}</td>
+            <td style={{minWidth: "5rem", textAlign: "left"}}>{res[1]}</td>
+          </tr>
+        ))}
+      </table>
     </div>
   );
 }
