@@ -1,3 +1,4 @@
+import Login from '@/components/Login';
 import Head from "next/head";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
@@ -7,7 +8,7 @@ import getAuth from "../auth/getArcanaAuth"
 import { Button } from 'primereact/button';
 import { useAuth } from "@arcana/auth-react";
 export default function Index() {
-  const { user, connect, isLoggedIn, loading, loginWithSocial, provider } = useAuth();
+const { user, connect, isLoggedIn, loading, loginWithSocial, provider } = useAuth();
 
   const onConnectClick = async () => {
     try {
