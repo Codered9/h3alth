@@ -1,14 +1,31 @@
-import Head from 'next/head'
+import Head from "next/head";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";                                         
-import { AuthProvider } from '@arcana/auth';
-import { ProvideAuth } from '@arcana/auth-react';
-import Login from '@/components/Login';
+import "primeicons/primeicons.css";
+import { useEffect } from "react";
+import getAuth from "../auth/getArcanaAuth"
+import { Button } from 'primereact/button';
+import { useAuth } from "@arcana/auth-react";
+export default function Index() {
+  const { user, connect, isLoggedIn, loading, loginWithSocial, provider } = useAuth();
 
-const provider = new AuthProvider(process.env.NEXT_PUBLIC_ARCANA_APP_ID)
+  const onConnectClick = async () => {
+    try {
+      await connect();
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-export default function Home() {
+  const onConnect = () => {
+    console.log("connected");
+  };
+  useEffect(() => {
+    provider.on("connect", onConnect);
+    return () => {
+      provider.removeListener("connect", onConnect);
+    };
+  }, [provider]);
   return (
     <>
       <Head>
@@ -17,9 +34,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ProvideAuth provider={provider}>
-        <Login />
-      </ProvideAuth>
+      <Button label="Connect" raised onClick={onConnectClick}/>
     </>
-  )
+  );
 }
