@@ -14,7 +14,7 @@ export default function handler(req, res) {
   // console.log(req.body)
   const form = formidable({ multiples: true });
   form.parse(req, async (err, fields, files) => {
-    console.log(files)
+    // console.log(files)
     if (!files.demo) {
      return res.status(400).send("No file uploaded");
     }

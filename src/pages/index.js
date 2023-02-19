@@ -3,12 +3,15 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import { useEffect } from "react";
-import getAuth from "../auth/getArcanaAuth"
-import { Button } from 'primereact/button';
+import getAuth from "../auth/getArcanaAuth";
+import { Button } from "primereact/button";
+import { Panel } from 'primereact/panel';
 import { useAuth } from "@arcana/auth-react";
 import UploadFile from "@/components/UploadFile";
 export default function Index() {
-const { user, connect, isLoggedIn, loading, loginWithSocial, provider } = useAuth();
+  const { user, connect, isLoggedIn, loading, loginWithSocial, provider } =
+    useAuth();
+  const auth = useAuth();
 
   const onConnectClick = async () => {
     try {
@@ -35,12 +38,19 @@ const { user, connect, isLoggedIn, loading, loginWithSocial, provider } = useAut
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Button label="Connect" raised onClick={onConnectClick}/>
-      {
-        isLoggedIn ? (
-          <UploadFile />
-        ) : ""
-      }
+      <Panel header="H3alth">
+        <p className="m-0">
+          Welcome to H3alth Home Page. Here you can upload your medical reports to decentralised storage. <br/>
+          Below this panel you can see file upload menu using which you can upload files. <br/>
+          At the bottom right you can see your Arcana Wallet which contains all your assets, NFTs, past acitivity and Logout button to exit the session.
+        </p>
+      </Panel>
+      {isLoggedIn ? (
+        ""
+      ) : (
+        <Button label="Connect" raised onClick={onConnectClick} />
+      )}
+      {isLoggedIn ? user && <UploadFile auth={auth} /> : ""}
     </>
   );
 }
