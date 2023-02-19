@@ -1,4 +1,3 @@
-import Login from '@/components/Login';
 import Head from "next/head";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
@@ -7,6 +6,7 @@ import { useEffect } from "react";
 import getAuth from "../auth/getArcanaAuth"
 import { Button } from 'primereact/button';
 import { useAuth } from "@arcana/auth-react";
+import UploadFile from "@/components/UploadFile";
 export default function Index() {
 const { user, connect, isLoggedIn, loading, loginWithSocial, provider } = useAuth();
 
@@ -36,6 +36,11 @@ const { user, connect, isLoggedIn, loading, loginWithSocial, provider } = useAut
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Button label="Connect" raised onClick={onConnectClick}/>
+      {
+        isLoggedIn ? (
+          <UploadFile />
+        ) : ""
+      }
     </>
   );
 }
